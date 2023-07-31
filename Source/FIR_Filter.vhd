@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 
 entity FIR_Filter is
     generic(
-        FILTER_TAPS  : integer := 60; -- How many multiplications have this FIR
+        FILTER_TAPS  : integer := 20; -- How many multiplications have this FIR
         INPUT_WIDTH  : integer range 8 to 25 := 24; -- Width bits of the INPUTS 
         COEFF_WIDTH  : integer range 8 to 18 := 16; -- Width bits of the Coeff 
         OUTPUT_WIDTH : integer range 8 to 43 := 24 -- Width bits of the OUTPUT (can be less then INPUT_WIDTH + COEFF_WIDTH)
@@ -12,7 +12,7 @@ entity FIR_Filter is
     port (
         i_clk       : in STD_LOGIC;
         i_reset_n   : in STD_LOGIC;
-        i_data_i    : in std_logic_vector(INPUT_WIDTH - 1 downto 0);
+        i_data_i    : in std_logic_vector(INPUT_WIDTH - 1 downto 0); 
         o_data_o    : out std_logic_vector(OUTPUT_WIDTH - 1 downto 0)
     );
 end entity FIR_Filter;
@@ -40,26 +40,32 @@ architecture Behavioral of FIR_Filter is
     
 
     ------------------------------------------------------------------------------------------- ROM Coefficients
-    type coefficients is array (0 to FILTER_TAPS-1) of signed(COEFF_WIDTH-1 downto 0);
+    type coefficients is array (0 to FILTER_TAPS-1) of signed(COEFF_WIDTH-1 downto 0); -- Sfix16_fr14
     signal coeff_s: coefficients :=( 
     -- 500Hz Blackman LPF
-    x"0000", x"0001", x"0005", x"000C", 
-    x"0016", x"0025", x"0037", x"004E", 
-    x"0069", x"008B", x"00B2", x"00E0", 
-    x"0114", x"014E", x"018E", x"01D3", 
-    x"021D", x"026A", x"02BA", x"030B", 
-    x"035B", x"03AA", x"03F5", x"043B", 
-    x"047B", x"04B2", x"04E0", x"0504", 
-    x"051C", x"0528", x"0528", x"051C", 
-    x"0504", x"04E0", x"04B2", x"047B", 
-    x"043B", x"03F5", x"03AA", x"035B", 
-    x"030B", x"02BA", x"026A", x"021D", 
-    x"01D3", x"018E", x"014E", x"0114", 
-    x"00E0", x"00B2", x"008B", x"0069", 
-    x"004E", x"0037", x"0025", x"0016", 
-    x"000C", x"0005", x"0001", x"0000");
+   --x"0000", x"0001", x"0005", x"000C", 
+   --x"0016", x"0025", x"0037", x"004E", 
+   --x"0069", x"008B", x"00B2", x"00E0", 
+   --x"0114", x"014E", x"018E", x"01D3", 
+   --x"021D", x"026A", x"02BA", x"030B", 
+   --x"035B", x"03AA", x"03F5", x"043B", 
+   --x"047B", x"04B2", x"04E0", x"0504", 
+   --x"051C", x"0528", x"0528", x"051C", 
+   --x"0504", x"04E0", x"04B2", x"047B", 
+   --x"043B", x"03F5", x"03AA", x"035B", 
+   --x"030B", x"02BA", x"026A", x"021D", 
+   --x"01D3", x"018E", x"014E", x"0114", 
+   --x"00E0", x"00B2", x"008B", x"0069", 
+   --x"004E", x"0037", x"0025", x"0016", 
+   --x"000C", x"0005", x"0001", x"0000");
 
+   --LPF 
+   --x"FFAD", x"01F0", x"0283", x"03AD", x"04F1", x"0619", x"06FA", x"0774", x"0774", x"06FA", x"0619", x"04F1", x"03AD", x"0283", x"01F0", x"FFAD");
 
+   --BPF
+   --x"F6F3", x"FB0C", x"FB70", x"FD62", x"00CC", x"050D", x"08FC", x"0B5B", x"0B5B", x"08FC", x"050D", x"00CC", x"FD62", x"FB70", x"FB0C", x"F6F3");
+
+   x"00EA", x"FCDE", x"FDA3", x"FD64", x"FCE8", x"FC63", x"FBE7", x"FB7E", x"FB2E", x"FAFD", x"3AEB", x"FAFD", x"FB2E", x"FB7E", x"FBE7", x"FC63", x"FCE8", x"FD64", x"FDA3", x"FCDE");
 
 begin
     
@@ -76,7 +82,7 @@ begin
     end generate;
 
     -- Connect the last Register to OUTPUT
-    o_data_o <= std_logic_vector(preg_s(0)(MAC_WIDTH-2 downto MAC_WIDTH-OUTPUT_WIDTH-1));         
+    o_data_o <= std_logic_vector(preg_s(0)(MAC_WIDTH-1 downto MAC_WIDTH-OUTPUT_WIDTH));         
 
 
     process(i_clk)
@@ -102,8 +108,8 @@ begin
                 end loop;
                 
                 if (i < FILTER_TAPS-1) then
-                    mreg_s(i) <= areg_s(i)*breg_s(i);         
-                    preg_s(i) <= mreg_s(i) + preg_s(i+1);
+                    mreg_s(i) <= areg_s(i)*breg_s(i); -- Sfix40_fr14        
+                    preg_s(i) <= mreg_s(i) + preg_s(i+1); -- Sfix40_fr14  
 
                 elsif (i = FILTER_TAPS-1) then
                     mreg_s(i) <= areg_s(i)*breg_s(i); 

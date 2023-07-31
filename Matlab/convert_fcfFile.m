@@ -1,10 +1,10 @@
 clear;
 
 
-coeff = 16;
+coeff = 20;
 flag = 0;
 % Open the FCF file
-file_id = fopen('coeff.fcf', 'r');
+file_id = fopen('coeff_hpf.fcf', 'r');
 
 % Read the file line by line
 line_number = coeff; 
@@ -36,13 +36,18 @@ fix_point_decimal = zeros(1,coeff);
 s = coeff;
 for c = 1:s
    fix_point_decimal(1,c) = Convert_FixPoint(H(1,c));
+   fix_point_hex = dec2hex(fix_point_decimal(1,c),4);
+   message = 'x"%c%c%c%c", ';
+   fprintf(message,fix_point_hex);
 end
+
+
 
 % Close the file
 fclose(file_id);
 
 function fix_point = Convert_FixPoint(a)
-
+    
     % Define the fixed-point data type
     %word_length = 16;
     fraction_length = 14;

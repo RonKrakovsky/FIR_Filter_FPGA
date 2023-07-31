@@ -103,7 +103,7 @@ if ![info exists SYSTEM_INSTANCE_NAME] {
 }
 
 if ![info exists TOP_LEVEL_NAME] { 
-  set TOP_LEVEL_NAME "NCO_tb"
+  set TOP_LEVEL_NAME "FIR_Filter_tb"
 }
 
 if ![info exists QSYS_SIMDIR] { 
@@ -225,7 +225,10 @@ alias com {
   eval  vlog $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/mentor/asj_nco_as_m_cen.v"  -work nco_ii_0
   eval  vlog $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/mentor/asj_altqmcpipe.v"    -work nco_ii_0
   eval  vlog $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/submodules/NCO_tb_nco_ii_0.v"          -work nco_ii_0
-  eval  vcom $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/NCO_tb.vhd"                                          
+  eval  vcom $USER_DEFINED_COMPILE_OPTIONS "$QSYS_SIMDIR/FIR_Filter_tb.vhd"  
+  eval  vcom $USER_DEFINED_COMPILE_OPTIONS "./../../../source/FIR_Filter.vhd" 
+  
+  
 }
 
 # ----------------------------------------

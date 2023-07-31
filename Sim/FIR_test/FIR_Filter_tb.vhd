@@ -5,7 +5,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use std.env.finish;
+use std.env.stop;
 
 entity FIR_Filter_tb is
 end entity FIR_Filter_tb;
@@ -22,11 +22,28 @@ architecture rtl of FIR_Filter_tb is
 		);
 	end component NCO_tb_nco_ii_0;
 
+	component FIR_Filter is
+		generic(
+			FILTER_TAPS  : integer := 20; -- How many multiplications have this FIR
+			INPUT_WIDTH  : integer range 8 to 25 := 24; -- Width bits of the INPUTS 
+			COEFF_WIDTH  : integer range 8 to 18 := 16; -- Width bits of the Coeff 
+			OUTPUT_WIDTH : integer range 8 to 43 := 24 -- Width bits of the OUTPUT (can be less then INPUT_WIDTH + COEFF_WIDTH)
+		);
+		port (
+			i_clk       : in STD_LOGIC;
+			i_reset_n   : in STD_LOGIC;
+			i_data_i    : in std_logic_vector(INPUT_WIDTH - 1 downto 0); 
+			o_data_o    : out std_logic_vector(OUTPUT_WIDTH - 1 downto 0)
+		);
+	end component FIR_Filter;
+
 	constant clk_period : time := 20 ns;
 	signal clk,reset_n,valid_nco : std_logic;
 	signal nco_ii_0_fsin_o : std_logic_vector(23 downto 0); -- port fragment
 	signal freq_count : integer range 1 to 2**16; 
 	signal Time_counter : integer range 1 to 2**16; 
+	signal phi_inc_i_s : std_logic_vector(15 downto 0);
+	signal o_data_fir_s : std_logic_vector(23 downto 0);
 
 begin
 
@@ -45,18 +62,13 @@ begin
 		if reset_n = '0' then 
 			freq_count <= 1;
 			Time_counter <= 1;
-		elsif rising_edge(clk) then 
-			if freq_count = 2**16 then
-				--report "Finish";
+		elsif rising_edge(clk) then 	
+			if Time_counter = 2**16/freq_count then 
+				freq_count <= freq_count + 4;
+				Time_counter <= 1;
 			else
-				if Time_counter = 2**16/freq_count then 
-					freq_count <= freq_count + 1;
-					Time_counter <= 1;
-				else
-					Time_counter <= Time_counter + 1;
-				end if;
-				
-			end if;
+				Time_counter <= Time_counter + 1;
+			end if;	
 		end if;
 	end process;
 
@@ -64,9 +76,9 @@ begin
 	begin
 	 
 	  -- Replace this line with your testbench logic
-		wait until freq_count = 2**16/2;
-		report "Calling 'finish'";
-		--finish;
+		wait until freq_count > 2**16/4;
+		report "finish";
+		stop;
 	
 	end process;
 
@@ -75,10 +87,20 @@ begin
 			clk                    => clk,              -- clk.clk
 			reset_n                => reset_n,          -- rst.reset_n
 			clken                  => '1',             --  in.valid
-			phi_inc_i(15 downto 0) => (others => '1'), --    .data
+			phi_inc_i(15 downto 0) => phi_inc_i_s, --    .data
 			fsin_o(23 downto 0)    => nco_ii_0_fsin_o(23 downto 0),  -- out.data
 			out_valid              => valid_nco             --    .valid
 		);
 
+	FIR_Filter_0 : component FIR_Filter
+		port map(
+			i_clk => clk,
+			i_reset_n => reset_n,
+			i_data_i => nco_ii_0_fsin_o,
+			o_data_o => o_data_fir_s
+		);
+
+
+		phi_inc_i_s <= std_logic_vector(to_unsigned(freq_count,16));
 
 end architecture rtl; -- of NCO_tb
