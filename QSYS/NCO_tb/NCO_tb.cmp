@@ -1,0 +1,11 @@
+	component NCO_tb is
+		port (
+			nco_ii_0_clk_clk     : in  std_logic                     := 'X';             -- clk
+			nco_ii_0_in_valid    : in  std_logic                     := 'X';             -- valid
+			nco_ii_0_in_data     : in  std_logic_vector(15 downto 0) := (others => 'X'); -- data
+			nco_ii_0_out_data    : out std_logic_vector(23 downto 0);                    -- data
+			nco_ii_0_out_valid   : out std_logic;                                        -- valid
+			nco_ii_0_rst_reset_n : in  std_logic                     := 'X'              -- reset_n
+		);
+	end component NCO_tb;
+

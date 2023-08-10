@@ -1,0 +1,39 @@
+# system info NCO_tb on 2023.07.30.14:52:23
+system_info:
+name,value
+DEVICE,5CGXFC7C7F23C8
+DEVICE_FAMILY,Cyclone V
+GENERATION_ID,1690717943
+#
+#
+# Files generated for NCO_tb on 2023.07.30.14:52:23
+files:
+filepath,kind,attributes,module,is_top
+simulation/NCO_tb.vhd,VHDL,,NCO_tb,true
+simulation/submodules/mentor/asj_nco_aprid_dxx.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_nco_aprid_dxx.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_nco_mob_rw.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_nco_mob_rw.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_nco_isdr.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_nco_isdr.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_dxx_g.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_dxx_g.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_dxx.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_dxx.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_gal.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_gal.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_nco_as_m_cen.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_nco_as_m_cen.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/mentor/asj_altqmcpipe.v,VERILOG_ENCRYPT,MENTOR_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/aldec/asj_altqmcpipe.v,VERILOG_ENCRYPT,ALDEC_SPECIFIC,NCO_tb_nco_ii_0,false
+simulation/submodules/NCO_tb_nco_ii_0_sin.hex,HEX,,NCO_tb_nco_ii_0,false
+simulation/submodules/NCO_tb_nco_ii_0.v,VERILOG,,NCO_tb_nco_ii_0,false
+simulation/submodules/NCO_tb_nco_ii_0_tb.vhd,OTHER,,NCO_tb_nco_ii_0,false
+simulation/submodules/c_model/model_wrapper.cpp,OTHER,,NCO_tb_nco_ii_0,false
+simulation/submodules/c_model/nco_model.cpp,OTHER,,NCO_tb_nco_ii_0,false
+simulation/submodules/c_model/nco_model.h,OTHER,,NCO_tb_nco_ii_0,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+NCO_tb.nco_ii_0,NCO_tb_nco_ii_0

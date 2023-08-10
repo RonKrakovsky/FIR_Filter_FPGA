@@ -15,11 +15,17 @@ entity FIR_Filter is
         i_data_i    : in std_logic_vector(INPUT_WIDTH - 1 downto 0); 
         o_data_o    : out std_logic_vector(OUTPUT_WIDTH - 1 downto 0)
     );
+	 
+
 end entity FIR_Filter;
 
 architecture Behavioral of FIR_Filter is
+    	
+	
 
-    constant MAC_WIDTH : integer := COEFF_WIDTH+INPUT_WIDTH;
+	
+	
+	 constant MAC_WIDTH : integer := COEFF_WIDTH+INPUT_WIDTH;
     
     ------------------------------------------------------------------------------------------- Registers
     type input_registers is array(0 to FILTER_TAPS-1) of signed(INPUT_WIDTH-1 downto 0); -- First Register for Broadcast input data
@@ -27,6 +33,8 @@ architecture Behavioral of FIR_Filter is
 
     type mult_registers is array(0 to FILTER_TAPS-1) of signed(MAC_WIDTH-1 downto 0); -- Registers after mult with coeff 
     signal mreg_s : mult_registers := (others=>(others=>'0'));
+	 signal mreg_first_s : mult_registers := (others=>(others=>'0'));
+
 
     type dsp_registers is array(0 to FILTER_TAPS-1) of signed(MAC_WIDTH-1 downto 0); -- Registers after each DSP adder 
     signal preg_s : dsp_registers := (others=>(others=>'0'));
@@ -93,8 +101,9 @@ begin
         if (i_reset_n = '0') then
             for i in 0 to FILTER_TAPS-1 loop -- Reset all Registers
                 areg_s(i) <=(others=> '0');
-                mreg_s(i) <=(others=> '0');
-                preg_s(i) <=(others=> '0');
+                --mreg_s(i) <=(others=> '0');
+                --preg_s(i) <=(others=> '0');
+					 --mreg_first_s(i) <=(others=> '0');
             end loop;
 
         elsif (i_reset_n = '1') then        
@@ -107,12 +116,16 @@ begin
                     end if;
                 end loop;
                 
+					 
+
                 if (i < FILTER_TAPS-1) then
-                    mreg_s(i) <= areg_s(i)*breg_s(i); -- Sfix40_fr14        
+						  mreg_first_s(i) <= areg_s(i)*breg_s(i); -- Sfix40_fr14 
+                    mreg_s(i) <= mreg_first_s(i);      
                     preg_s(i) <= mreg_s(i) + preg_s(i+1); -- Sfix40_fr14  
 
                 elsif (i = FILTER_TAPS-1) then
-                    mreg_s(i) <= areg_s(i)*breg_s(i); 
+                    mreg_first_s(i) <= areg_s(i)*breg_s(i);
+						  mreg_s(i) <= mreg_first_s(i); 
                     preg_s(i)<= mreg_s(i);
                 end if;
             end loop; 
@@ -120,5 +133,6 @@ begin
 
     end if;
     end process;
+	 
     
 end architecture Behavioral;

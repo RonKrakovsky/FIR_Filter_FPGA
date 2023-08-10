@@ -2,52 +2,52 @@
 TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
-Type  : Slow 1100mV 85C Model Setup 'i_clk'
-Slack : -5.434
-TNS   : -5307.830
+Type  : Slow 1100mV 85C Model Setup 'base_clock'
+Slack : -0.033
+TNS   : -0.033
 
-Type  : Slow 1100mV 85C Model Hold 'i_clk'
-Slack : 0.347
+Type  : Slow 1100mV 85C Model Hold 'base_clock'
+Slack : 0.269
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'i_clk'
-Slack : -3.000
-TNS   : -2796.500
-
-Type  : Slow 1100mV 0C Model Setup 'i_clk'
-Slack : -5.607
-TNS   : -5545.949
-
-Type  : Slow 1100mV 0C Model Hold 'i_clk'
-Slack : 0.328
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'base_clock'
+Slack : 0.000
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'i_clk'
-Slack : -3.000
-TNS   : -2842.980
+Type  : Slow 1100mV 0C Model Setup 'base_clock'
+Slack : -0.061
+TNS   : -0.117
 
-Type  : Fast 1100mV 85C Model Setup 'i_clk'
-Slack : -2.082
-TNS   : -1702.110
-
-Type  : Fast 1100mV 85C Model Hold 'i_clk'
-Slack : 0.170
+Type  : Slow 1100mV 0C Model Hold 'base_clock'
+Slack : 0.256
 TNS   : 0.000
 
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'i_clk'
-Slack : -2.225
-TNS   : -1304.255
-
-Type  : Fast 1100mV 0C Model Setup 'i_clk'
-Slack : -1.932
-TNS   : -1550.196
-
-Type  : Fast 1100mV 0C Model Hold 'i_clk'
-Slack : 0.153
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'base_clock'
+Slack : 0.000
 TNS   : 0.000
 
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'i_clk'
-Slack : -2.225
-TNS   : -1310.828
+Type  : Fast 1100mV 85C Model Setup 'base_clock'
+Slack : 1.390
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'base_clock'
+Slack : 0.145
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'base_clock'
+Slack : 0.775
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Setup 'base_clock'
+Slack : 1.320
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'base_clock'
+Slack : 0.132
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'base_clock'
+Slack : 0.775
+TNS   : 0.000
 
 ------------------------------------------------------------
